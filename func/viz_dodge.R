@@ -8,7 +8,7 @@
 
 viz_dodge <- function(df, var, tit) {
   
-  ### Clean data
+  ## Clean data
   viz <- df %>%
     count({{var}}, Revenue) %>%
     group_by(Revenue) %>%
