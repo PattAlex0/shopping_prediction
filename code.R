@@ -53,7 +53,18 @@ shoppers_train %>%
     ggplot() +
     aes(Number, fill = Revenue) +
     geom_histogram() +
-    facet_wrap(~Page, scales = "free_x") +
+    facet_wrap(~Page, scales = "free") +
+    labs(x = NULL, y = NULL)
+
+### Histogram by Bounce and Exit rate
+shoppers_train %>%
+    pivot_longer(c("BounceRates", "ExitRates"),
+                 names_to = "Measure",
+                 values_to = "Rate") %>%
+    ggplot() +
+    aes(Rate, fill = Revenue) +
+    geom_histogram() +
+    facet_wrap(~Measure, scales = "free") +
     labs(x = NULL, y = NULL)
 
 ### Cumulative Graph by Page and Purchase
