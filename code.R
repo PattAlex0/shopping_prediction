@@ -51,9 +51,10 @@ shoppers_train %>%
                  names_to = "Page",
                  values_to = "Number") %>%
     ggplot() +
-    aes(Number) +
-    geom_histogram()  +
-    facet_wrap(Revenue~Page, scales = "free_x")
+    aes(Number, fill = Revenue) +
+    geom_histogram() +
+    facet_wrap(~Page, scales = "free_x") +
+    labs(x = NULL, y = NULL)
 
 ### Cumulative Graph by Page and Purchase
 shoppers_train %>%
@@ -64,6 +65,16 @@ shoppers_train %>%
     aes(Number, color = Revenue) +
     stat_ecdf(geom = "step") +
     facet_wrap(~Page, scales = "free_x")
+
+### Boxplot of Log Page Duration
+shoppers_train %>%
+    pivot_longer(c("Administrative_Duration", "Informational_Duration", "ProductRelated_Duration"),
+                 names_to = "Page",
+                 values_to = "Duration") %>%
+    ggplot() +
+    aes(Revenue, log(Duration)) +
+    geom_boxplot() +
+    facet_wrap(~Page, scales = "free_y")
 
 ### Plot by month
 viz_dodge(shoppers_train, Month, "Month")
@@ -95,7 +106,7 @@ viz_dodge(shoppers_train, VisitorType, "VisitorType")
 
 viz_fill(shoppers_train, VisitorType, "Visitor Type")
 
-### Plot by weekend
+### Plot by Weekend
 viz_dodge(shoppers_train, Weekend, "Weekend")
 
 viz_fill(shoppers_train, Weekend, "Weekend")
