@@ -41,6 +41,9 @@ shoppers_split <- initial_split(shoppers)
 shoppers_train <- training(shoppers_split)
 shoppers_test <- testing(shoppers_split)
 
+###
+source("func/viz_dodge.R")
+
 ### Histogram by Page
 shoppers_train %>%
     pivot_longer(c("Administrative", "Informational", "ProductRelated"),
@@ -62,13 +65,7 @@ shoppers_train %>%
     facet_wrap(~Page, scales = "free_x")
 
 ### Plot by month
-shoppers_train %>%
-    count(Month, Revenue) %>%
-    group_by(Revenue) %>%
-    mutate(freq = n / sum(n)) %>%
-    ggplot() +
-    aes(Month, freq, fill = Revenue) +
-    geom_col(position = "dodge")
+viz_dodge(shoppers_train, Month, "Month")
 
 shoppers_train %>%
     count(Month, Revenue) %>%
@@ -79,13 +76,7 @@ shoppers_train %>%
     geom_col(position = "fill")
 
 ### Plot by Operating System
-shoppers_train %>%
-    count(OperatingSystems, Revenue) %>%
-    group_by(Revenue) %>%
-    mutate(freq = n / sum(n)) %>%
-    ggplot() +
-    aes(OperatingSystems, freq, fill = Revenue) +
-    geom_col(position = "dodge")
+viz_dodge(shoppers_train, OperatingSystems, "Operating Systems")
 
 shoppers_train %>%
     count(OperatingSystems, Revenue) %>%
@@ -96,13 +87,7 @@ shoppers_train %>%
     geom_col(position = "fill")
 
 ### Plot by Browser
-shoppers_train %>%
-    count(Browser, Revenue) %>%
-    group_by(Revenue) %>%
-    mutate(freq = n / sum(n)) %>%
-    ggplot() +
-    aes(Browser, freq, fill = Revenue) +
-    geom_col(position = "dodge")
+viz_dodge(shoppers_train, Browser, "Browser")
 
 shoppers_train %>%
     count(Browser, Revenue) %>%
@@ -113,13 +98,7 @@ shoppers_train %>%
     geom_col(position = "fill")
 
 ### Plot by Region
-shoppers_train %>%
-    count(Region, Revenue) %>%
-    group_by(Revenue) %>%
-    mutate(freq = n / sum(n)) %>%
-    ggplot() +
-    aes(Region, freq, fill = Revenue) +
-    geom_col(position = "dodge")
+viz_dodge(shoppers_train, Region, "Region")
 
 shoppers_train %>%
     count(Region, Revenue) %>%
@@ -130,13 +109,7 @@ shoppers_train %>%
     geom_col(position = "fill")
 
 ### Plot by Traffic Type
-shoppers_train %>%
-    count(TrafficType, Revenue) %>%
-    group_by(Revenue) %>%
-    mutate(freq = n / sum(n)) %>%
-    ggplot() +
-    aes(TrafficType, freq, fill = Revenue) +
-    geom_col(position = "dodge")
+viz_dodge(shoppers_train, TrafficType, "TrafficType")
 
 shoppers_train %>%
     count(TrafficType, Revenue) %>%
@@ -147,13 +120,7 @@ shoppers_train %>%
     geom_col(position = "fill")
 
 ### Plot by Visitor Type
-shoppers_train %>%
-    count(VisitorType, Revenue) %>%
-    group_by(Revenue) %>%
-    mutate(freq = n / sum(n)) %>%
-    ggplot() +
-    aes(VisitorType, freq, fill = Revenue) +
-    geom_col(position = "dodge")
+viz_dodge(shoppers_train, VisitorType, "VisitorType")
 
 shoppers_train %>%
     count(VisitorType, Revenue) %>%
@@ -164,13 +131,7 @@ shoppers_train %>%
     geom_col(position = "fill")
 
 ### Plot by weekend
-shoppers_train %>%
-    count(Weekend, Revenue) %>%
-    group_by(Revenue) %>%
-    mutate(freq = n / sum(n)) %>%
-    ggplot() +
-    aes(Weekend, freq, fill = Revenue) +
-    geom_col(position = "dodge")
+viz_dodge(shoppers_train, Weekend, "Weekend")
 
 shoppers_train %>%
     count(Weekend, Revenue) %>%
@@ -181,13 +142,7 @@ shoppers_train %>%
     geom_col(position = "fill")
 
 ### Plot by Special Day
-shoppers_train %>%
-    count(SpecialDay, Revenue) %>%
-    group_by(Revenue) %>%
-    mutate(freq = n / sum(n)) %>%
-    ggplot() +
-    aes(SpecialDay, freq, fill = Revenue) +
-    geom_col(position = "dodge")
+viz_dodge(shoppers_train, SpecialDay, "Special Day")
 
 shoppers_train %>%
     count(SpecialDay, Revenue) %>%
