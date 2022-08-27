@@ -177,6 +177,10 @@ shoppers %>%
     scale_x_continuous()
 ```
 
+```{r}
+shoppers <- shoppers[!shoppers$ProductRelated == 0, ]
+```
+
 ### Impossible Values
 
 There are some observations where the number of pages viewed for a section is at least one, but the total time spent on these pages is 0. This is obviously impossible, so I have removed these observations from the data
