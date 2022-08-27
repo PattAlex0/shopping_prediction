@@ -22,29 +22,6 @@ download.file("https://archive.ics.uci.edu/ml/machine-learning-databases/00468/o
 ### Load data
 shoppers <- read.csv("online_shoppers_intention.csv")
 
-### Convert columns to factors
-shoppers <- shoppers %>%
-    mutate(Month = factor(Month,
-                          levels = c("Feb", "Mar", "May", "June", 
-                                     "Jul", "Aug", "Sep", "Oct",
-                                     "Nov", "Dec"),
-                          labels = c("February", "March", "May",
-                                     "June", "July", "August",
-                                     "September", "October", "November",
-                                     "December")), 
-           OperatingSystems = factor(OperatingSystems),
-           Browser = factor(Browser),
-           Region = factor(Region),
-           TrafficType = factor(TrafficType),
-           VisitorType = factor(VisitorType,
-                                   levels = c("New_Visitor",
-                                              "Returning_Visitor",
-                                              "Other"),
-                                   labels = c("New Visitor",
-                                              "Returning Visitor",
-                                              "Other"))) %>%
-    as_tibble()
-
 ### Import functions
 source("func/viz_dodge.R")
 source("func/viz_fill.R")
@@ -153,7 +130,7 @@ print(shoppers)
 ### Data Splitting
 I split the data into two parts. The first is the training dataset, which is the data that I will develop my predictive model on. The second is the testing dataset, which is the data I will evaluate my predictive model on. The purpose of doing this is to prevent over-fitting, which is when a predictive model loses generalisability by developing around the idiosyncracies of a particular dataset.
 
-The code below is an application of example code provided in *Practical Data Science with R*, (pp. 109)
+The code below is an application of example code provided in *Practical Data Science with R*, (pp. 109). It takes 10% of the data for testing, leaving 90% for training
 
 ```{r}
 
