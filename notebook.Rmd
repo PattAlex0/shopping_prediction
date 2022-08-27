@@ -22,6 +22,8 @@ shoppers <- read.csv("online_shoppers_intention.csv")
 ### Import functions
 source("func/viz_dodge.R")
 source("func/viz_fill.R")
+source("func/tab_cum.R")
+source("func/tra_intensity.R")
 ```
 
 # Predicting who will purchase
@@ -33,7 +35,7 @@ The [*Online Shoppers Purchasing Intention Dataset*](https://archive.ics.uci.edu
 
 #### Numerical
 - Three variables representing the number of pages visited, corresponding to administrative pages, informational pages, and product-related pages
-- Three variables representing the time (seconds) spend on administrative, informational, and product related pages
+- Three variables representing the total time (seconds) spend on administrative, informational, and product related pages
 - Two variables corresponding to the Bounce Rate and Exit Rate
 - The 'average page value of the pages visited'
 - How close the visit was to a 'special day'
@@ -124,12 +126,80 @@ shoppers <- as_tibble(shoppers)
 print(shoppers)
 ```
 
-### Data Splitting
+## Data Inspection
+
+### Administration
+Looking at the data, 53.76% of users visited at least 1 administrative page, who then spent an average (median) of 85.56 seconds on these pages.
+
+```{r ins_admin_table}
+tab_cum(shoppers$Administrative)
+```
+
+```{r ins_admin_viz}
+shoppers %>%
+    filter(Administrative >= 1) %>%
+    ggplot() +
+    aes(Administrative_Duration) +
+    geom_histogram(bins = 20) +
+    labs(X = NULL, y = NULL)
+```
+
+### Informational
+
+```{r ins_inf_table}
+tab_cum(shoppers$Informational)
+```
+
+```{r ins_inf_viz}
+shoppers %>%
+    filter(Informational >= 1) %>%
+    ggplot() +
+    aes(Informational_Duration) +
+    geom_histogram(bins = 20) +
+    labs(X = NULL, y = NULL)
+```
+
+### Product Related
+
+99.69% of all sessions involved looking at at least 1 product related webpage
+
+```{r ins_tab_prod}
+tab_cum(shoppers$ProductRelated)
+```
+
+```{r}
+shoppers %>%
+    filter(ProductRelated >= 1) %>%
+    ggplot() +
+    aes(ProductRelated_Duration) +
+    geom_histogram() +
+    labs(X = NULL, y = NULL) +
+    scale_x_continuous()
+```
+
+### Impossible Values
+
+There are some observations where the number of pages viewed for a section is at least one, but the total time spent on these pages is 0. This is obviously impossible, so I have removed these observations from the data
+
+```{r}
+
+### Administrative
+shoppers <- shoppers[!(shoppers$Administrative >= 1 & shoppers$Administrative_Duration == 0), ]
+
+### Informational
+shoppers <- shoppers[!(shoppers$Informational >= 1 & shoppers$Informational_Duration == 0), ]
+
+### Product Related
+shoppers <- shoppers[!(shoppers$ProductRelated >= 1 & shoppers$ProductRelated_Duration == 0), ]
+
+```
+
+## Data Splitting
 I split the data into two parts. The first is the training dataset, which is the data that I will develop my predictive model on. The second is the testing dataset, which is the data I will evaluate my predictive model on. The purpose of doing this is to prevent over-fitting, which is when a predictive model loses generalisability by developing around the idiosyncracies of a particular dataset.
 
 The code below is an application of example code provided in *Practical Data Science with R*, (pp. 109). It takes 10% of the data for testing, leaving 90% for training
 
-```{r}
+```{r prep-split}
 
 ### Set seed
 set.seed(1353)
