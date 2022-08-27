@@ -13,9 +13,6 @@ library(tidyr)
 library(rsample)
 library(tibble)
 
-### Set seed
-set.seed(1353)
-
 ### Download data
 download.file("https://archive.ics.uci.edu/ml/machine-learning-databases/00468/online_shoppers_intention.csv")
 
