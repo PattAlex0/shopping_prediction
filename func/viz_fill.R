@@ -16,6 +16,7 @@ viz_fill <- function(df, col, tit) {
         ggplot() +
         aes({{col}}, freq, fill = Revenue) +
         geom_col(position = "fill") +
+        geom_hline(yintercept = 0.15, linetype = "dashed") +
         labs(x = NULL, y = NULL,
              title = tit,
              caption = "Data: Sakar, C.O., Polat, S.O., Katircioglu, M. et al. Neural Comput & Applic (2018).")
