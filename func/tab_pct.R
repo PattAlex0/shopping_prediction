@@ -6,6 +6,9 @@
 
 tab_pct <- function(df) {
 
+    ## Extract levels
+    lev <- levels(df)
+
     ## Create table
     tab <- table(df)
 
@@ -18,7 +21,11 @@ tab_pct <- function(df) {
     ## Round values to two digits
     tab <- round(tab, 2)
 
+    ## Create Tibble
+    tib <- tibble(Level = lev,
+                  Percentage = tab)
+
     ## Return final table
-    return(tab)
+    return(tib)
 
 }
